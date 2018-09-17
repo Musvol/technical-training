@@ -15,7 +15,7 @@ class Loan(models.Model):
     customer_id = fields.Many2one('library.customer')
     return_date = fields.Date()
     
-class Author(models.Model)
+class Author(models.Model):
 
     _name = 'library.author'
     name = fields.Char()
