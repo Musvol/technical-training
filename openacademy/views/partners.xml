@@ -8,6 +8,7 @@
             <field name="view_mode">tree,form</field>
             <field name="context">{}</field>
         </record>
+        
 
         <menuitem id="configuration_menu" name="Configuration"
                   parent="menu_root" />
@@ -15,6 +16,20 @@
         <menuitem id="contact_menu" name="Contacts"
                   parent="configuration_menu"
                   action="contact_list_action" />
+        
+        <record id="res_partner_inheritance" model="ir.ui.view">
+            <field name="name">OpenAcademy Contact</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <!-- find field description and add the field
+                     idea_ids after it -->
+                <xpath expr="//field[@name='mobile']" position="after">
+                    <field name="is_instructor" string="Instructeur ?"/>
+                    <field name="session_ids"/>
+                </xpath>
+            </field>
+        </record>
 
     </data>
 </odoo>
