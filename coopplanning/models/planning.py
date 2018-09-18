@@ -46,6 +46,8 @@ class TaskTemplate(models.Model):
     worker_ids = fields.Many2many('res.partner', string="Recurrent worker assigned")
     active = fields.Boolean(default=True)
     floating = fields.Boolean("Floating Task", help="This task will be not assigned to someone and will be available for non recurring workers")
+    
+    task_type_area = fields.Char(related="task_type_id.area", readonly=True)
 
     @api.depends('start_time', 'end_time')
     def _get_duration(self):

@@ -49,6 +49,23 @@
             </form>
         </field>
     </record>
+    
+    <record model="ir.ui.view" id="template_search_view">
+        <field name="name">template.search</field>
+        <field name="model">coopplanning.task.template</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="start_time"/>
+                <field name="end_time"/>
+                <field name="task_type_id"/>
+                <field name="worker_ids"/>
+                <field name="active"/>
+                <field name="task_type_area"/>
+            </search>
+        </field>
+    </record>
+
 
     <!-- Actions -->
     <record model="ir.actions.act_window" id="action_task_template">
