@@ -25,7 +25,7 @@
                 <!-- find field description and add the field
                      idea_ids after it -->
                 <xpath expr="//field[@name='mobile']" position="after">
-                    <field name="is_instructor" string="Instructeur ?"/>
+                    <field name="instructor" string="Instructeur ?"/>
                     <field name="session_ids"/>
                 </xpath>
             </field>
