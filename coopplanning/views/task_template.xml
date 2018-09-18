@@ -11,6 +11,7 @@
                 <field name="end_time" />
                 <field name="duration" />
                 <field name="worker_nb" />
+                <field name="active" invisible="1"/>
             </tree>
         </field>
     </record>
