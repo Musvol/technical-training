@@ -63,13 +63,16 @@
             </form>
             
             <xpath expr="//field[@name='isbn']" position="after">
-                    <field name="reference"/>
-                    <notebook>
-                        <page string="Rentals" name="rentals">
-                            <field name="rental_ids"/>
-                        </page>
-                    </notebook>
-                </xpath>
+                <field name="reference"/>
+            </xpath>
+            
+            <xpath expr="//notebook" position="replace">
+                <notebook>
+                    <page string="Rentals" name="rentals">
+                        <field name="rental_ids"/>        
+                    </page>
+                </notebook>
+            </xpath>
         </field>
     </record>
     
