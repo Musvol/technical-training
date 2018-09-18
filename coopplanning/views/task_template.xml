@@ -9,7 +9,7 @@
                 <field name="day_nb_id" />
                 <field name="start_time" />
                 <field name="end_time" />
-                <field name="duration" />
+                <field name="duration"  widget="float_time" />
                 <field name="worker_nb" />
                 <field name="active" invisible="1"/>
             </tree>
@@ -32,8 +32,8 @@
                     </div>
                     <group>
                         <group>
-                            <field name="task_type_id"   />
-                            <field name="day_nb_id" />
+                            <field name="task_type_id" options="{'no_create_edit': True}" />
+                            <field name="day_nb_id" options="{'no_create_edit': True}"/>
                             <field name="worker_nb" />
                             <field name="active" />
                         </group>
@@ -44,8 +44,8 @@
                             <field name="floating" />
                         </group>
                     </group>
-                        <separator string="Pre defined Worker" />
-                        <field name="worker_ids" nolabel="1" />
+                        <separator string="Pre defined Worker" attrs="{'invisible': [('floating', '=', True)]}"/>
+                        <field name="worker_ids" nolabel="1" attrs="{'invisible': [('floating', '=', True)]}"/>
                 </sheet>
             </form>
         </field>
@@ -61,8 +61,10 @@
                 <field name="end_time"/>
                 <field name="task_type_id"/>
                 <field name="worker_ids"/>
-                <field name="active"/>
                 <field name="task_type_area"/>
+                <filter name="is_active" string="Active"
+                    domain="[('inventor_id', '=', uid)]"/>
+                
             </search>
         </field>
     </record>

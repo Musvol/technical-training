@@ -26,8 +26,8 @@
                     </div>
                     <group>
                         <group>
-                            <field name="task_template_id"  />
-                            <field name="task_type_id" />
+                            <field name="task_template_id"  attrs="{'invisible': [('task_template_id', '=', False)]}"/>
+                            <field name="task_type_id" attrs="{'invisible': [('task_template_id', '=', False)]}"/>
                             <field name="worker_id" />
                         </group>
                         <group>
