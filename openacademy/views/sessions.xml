@@ -25,9 +25,11 @@
             <field name="name">session form</field>
             <field name="model">openacademy.session</field>
             <field name="arch" type="xml">
-                <div class="oe_button_box" name="button_box">
-                    <button string="Create Invoice" name="create_invoice" type="object"/>
-                </div>
+                <!-- Invoice button -->
+                <button name="create_invoice"
+                    string="Invoice Teacher"
+                    type="object"
+                    attrs="{'invisible' : [('is_paid', '=', True)]}"/>
                 <form>
                     <sheet>
                         <group>
@@ -38,6 +40,7 @@
                                 <field name="level" />
                                 <field name="instructor_id"/>
                                 <field name="active" />
+                                <field name="is_paid" invisible="1"/>
                             </group>
                             <group>
                                 <field name="start_date" />
