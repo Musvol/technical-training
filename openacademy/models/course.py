@@ -36,8 +36,28 @@ class Session(models.Model):
     attendees_count = fields.Integer(string="Attendees count", compute='_get_attendees_count', store=True)
     
     @api.multi
-    def action_create_invoice(self):
-        self.env["account.invoice"].create({})
+    def create_invoice(self):
+        teacher_invoice = self.env['account.invoice'].search([
+            ('partner_id', '=', self.instructor_id.id)
+        ], limit=1)
+
+        if not teacher_invoice:
+            teacher_invoice = self.env['account.invoice'].create({
+                'partner_id': self.instructor_id.id,
+            })
+
+        # install module accounting and a chart of account to have at least one expense account in your CoA
+        expense_account = self.env['account.account'].search([('user_type_id', '=', self.env.ref('account.data_account_type_expenses').id)], limit=1)
+        self.env['account.invoice.line'].create({
+            'invoice_id': teacher_invoice.id,
+            'product_id': self.product_id.id,
+            'price_unit': self.product_id.lst_price,
+            'account_id': expense_account.id,
+            'name': 'Session',
+            'quantity': 1,
+        })
+
+        self.write({'is_paid': True})
         
     @api.depends('seats', 'attendee_ids')
     def _taken_seats(self):
