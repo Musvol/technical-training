@@ -34,7 +34,11 @@ class Session(models.Model):
     responsible_id = fields.Many2one(related='course_id.responsible_id', readonly=True, store=True)
 
     attendees_count = fields.Integer(string="Attendees count", compute='_get_attendees_count', store=True)
-
+    
+    @api.multi
+    def action_create_invoice(self):
+        self.env["account.invoice"].create({})
+        
     @api.depends('seats', 'attendee_ids')
     def _taken_seats(self):
         for session in self:

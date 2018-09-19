@@ -25,6 +25,9 @@
             <field name="name">session form</field>
             <field name="model">openacademy.session</field>
             <field name="arch" type="xml">
+                <div class="oe_button_box" name="button_box">
+                    <button string="Create Invoice" name="action_create_invoice" type="object"/>
+                </div>
                 <form>
                     <sheet>
                         <group>
