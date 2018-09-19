@@ -62,6 +62,13 @@ class Session(models.Model):
 
     percentage_per_day = fields.Integer("%", default=100)
     attendees_count = fields.Integer(string="Attendees count", compute='_get_attendees_count', store=True)
+    
+    state = fields.Char(compute="_compute_state", string="Status")
+    
+    def _compute_state(self):
+        for session in self:
+            participation = taken_seats / seats
+            session.state = "pending" if participation < 0.5 else "confirmed"
 
     def _warning(self, title, message):
         return {'warning': {
