@@ -24,11 +24,12 @@ class TaskType(models.Model):
     active = fields.Boolean(default=True)
     
     @api.multi
+    @api.depends('name', 'description')
     def name_get(self):
         result = []
         for task_type in self:
             name = "{}: {}".format(task_type.name, task_type.description)
-            result.append(record.id, name)
+            result.append(task_type.id, name)
         return result
         
 
