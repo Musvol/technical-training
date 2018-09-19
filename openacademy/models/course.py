@@ -67,7 +67,7 @@ class Session(models.Model):
     
     def _compute_state(self):
         for session in self:
-            participation = taken_seats / seats
+            participation = session.taken_seats / session.seats
             session.state = "pending" if participation < 0.5 else "confirmed"
 
     def _warning(self, title, message):
