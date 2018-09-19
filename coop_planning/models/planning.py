@@ -22,6 +22,15 @@ class TaskType(models.Model):
     description = fields.Text()
     area = fields.Char()
     active = fields.Boolean(default=True)
+    
+    @api.multi
+    def name_get(self):
+        result = []
+        for record in self:
+            name = "{}: {}".format(self.name, self.description)
+            result.append(record.id, name)
+        return result
+        
 
 
 class DayNumber(models.Model):
