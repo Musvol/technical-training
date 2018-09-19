@@ -26,8 +26,8 @@ class TaskType(models.Model):
     @api.multi
     def name_get(self):
         result = []
-        for record in self:
-            name = "{}: {}".format(self.name, self.description)
+        for task_type in self:
+            name = "{}: {}".format(task_type.name, task_type.description)
             result.append(record.id, name)
         return result
         
