@@ -29,7 +29,7 @@ class TaskType(models.Model):
         result = []
         for task_type in self:
             name = "{}: {}".format(task_type.name, task_type.description)
-            result.append(task_type.id, name)
+            result.append((task_type.id, name))
         return result
         
 
