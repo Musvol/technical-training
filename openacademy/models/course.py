@@ -34,6 +34,8 @@ class Session(models.Model):
     responsible_id = fields.Many2one(related='course_id.responsible_id', readonly=True, store=True)
 
     attendees_count = fields.Integer(string="Attendees count", compute='_get_attendees_count', store=True)
+    is_paid = fields.Boolean('Is paid')
+    product_id = fields.Many2one('product.template', 'Product')
     
     @api.multi
     def create_invoice(self):
