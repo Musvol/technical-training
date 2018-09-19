@@ -28,7 +28,10 @@ class TaskType(models.Model):
     def name_get(self):
         result = []
         for task_type in self:
-            name = "{}: {}".format(task_type.name, task_type.description)
+            if task_type:
+                name = "{}: {}".format(task_type.name, task_type.description)
+            else:
+                name = task_type.name
             result.append((task_type.id, name))
         return result
         
