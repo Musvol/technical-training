@@ -7,12 +7,22 @@
             <field name="model">library.rental</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                        <button name="action_lost" type="object"
+                                string="Book lost"
+                                attrs="{'invisible' : ['!', ('state', '=', 'rented')]}"/>
+                        <button name="action_returned" type="object"
+                                string="Return book"
+                                attrs="{'invisible' : [('state', '=', 'returned')]}"/>
+                    </header>
                     <sheet>
                         <group>
+                            <field name="state"/>
                             <field name="customer_id" context="{'default_customer': True}"/>
                             <field name="book_id" context="{'default_book': True}"/>
                             <field name="rental_date"/>
                             <field name="return_date"/>
+                            <field name="price"><label string="€"/></field>
                         </group>
                     </sheet>
                 </form>
@@ -28,6 +38,7 @@
                     <field name="customer_id"/>
                     <field name="rental_date"/>
                     <field name="return_date"/>
+                    <field name="state"/>
                  </tree>
             </field>
         </record>

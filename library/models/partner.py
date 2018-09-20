@@ -20,3 +20,11 @@ class Partner(models.Model):
         'Nationality',
     )
     birthdate =  fields.Date('Birthdate',)
+
+    money_owed = fields.Float(compute='_compute_money_owed', string="Money owed", readonly=True, default=0)
+
+    @api.multi
+    @api.depends('rental_ids')
+    def _compute_money_owed(self):
+        for partner in self:
+            partner.money_owed = sum(rental.price for rental in partner.rental_ids.search([('state', '!=', 'returned')]))

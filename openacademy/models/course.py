@@ -46,6 +46,8 @@ class Session(models.Model):
     _name = 'openacademy.session'
     _order = 'name'
 
+    _inherit = ['mail.thread']
+
     name = fields.Char(required=True)
     start_date = fields.Date(default=lambda self : fields.Date.today())
     #end_date = fields.Date(default=lambda self : fields.Date.today())
@@ -63,18 +65,35 @@ class Session(models.Model):
     percentage_per_day = fields.Integer("%", default=100)
     attendees_count = fields.Integer(string="Attendees count", compute='_get_attendees_count', store=True)
     
-    state = fields.Char(compute="_compute_state", string="Status")
+    state = fields.Selection([
+            ('pending', 'Pending'),
+            ('confirmed', 'Confirmed')
+            ],default='pending', 
+            compute='_compute_state',
+            track_visibility='onchange')
     
+
+    @api.depends('seats', 'attendee_ids')
     def _compute_state(self):
         for session in self:
-            participation = session.taken_seats / session.seats
-            session.state = "pending" if participation < 0.5 else "confirmed"
+            session.state = "pending" if session.taken_seats < 50 else "confirmed"
 
     def _warning(self, title, message):
         return {'warning': {
             'title': title,
             'message': message,
         }}
+
+    
+    @api.multi
+    def write(self, vals):
+        res = super(Session, self).write(vals)
+        
+        if vals.get('instructor_id'):
+            
+            self.message_subscribe([vals['instructor_id']])
+            self.message_post(body="Instructor Added !!")
+        return res
 
     @api.depends('seats', 'attendee_ids')
     def _taken_seats(self):

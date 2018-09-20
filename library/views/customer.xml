@@ -15,6 +15,7 @@
                       </div>
                       <group>
                           <field name="email"/>
+                          <field name="money_owed"/>
                           <label for="street" string="Address"/>
                           <div class="o_address_format">
                               <field name="street" placeholder="Street..." class="o_address_street" />
@@ -31,6 +32,7 @@
                                       <field name="book_id"/>
                                       <field name="rental_date"/>
                                       <field name="return_date"/>
+                                      <field name="state"/>
                                   </tree>
                               </field>
                           </page>
