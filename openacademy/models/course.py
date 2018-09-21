@@ -22,6 +22,7 @@ class Course(models.Model):
         "The course title must be unique"),
     ]
 
+    
     @api.multi
     def copy(self, default=None):
         default = dict(default or {})

@@ -20,3 +20,18 @@ class Partner(models.Model):
         'Nationality',
     )
     birthdate =  fields.Date('Birthdate',)
+
+    """
+    def action_rent_book(self):
+
+        return {
+            'domain': [('id', 'in', new_invoice.values())],
+            'name': 'Rental Wizard',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'library.rental.wizard',
+            'context': "{'default_customer_id':'out_invoice'}",
+            'type': 'ir.actions.act_window'
+        }
+
+    """

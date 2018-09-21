@@ -51,6 +51,7 @@
             </field>
         </record>
 
+           
 
         <record model="ir.actions.act_window" id="action_customer">
             <field name="name">Customers</field>
