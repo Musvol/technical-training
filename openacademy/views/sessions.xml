@@ -21,6 +21,8 @@
             </field>
         </record>
 
+
+
         <record model="ir.ui.view" id="session_view_form">
             <field name="name">session form</field>
             <field name="model">openacademy.session</field>
@@ -70,6 +72,8 @@
             <field name="res_model">openacademy.session</field>
             <field name="view_mode">tree,form</field>
         </record>
+
+               
 
         <!-- actions -->
         <menuitem name="Sessions" id="menu_session" parent="menu_course_top"

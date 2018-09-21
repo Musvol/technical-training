@@ -43,6 +43,11 @@
                             </page>
                         </notebook>
                     </sheet>
+                    <footer>
+                        <button class="oe_stat_button" type="object" name="action_show_attendees" string="Attendees">
+                            <field name="attendee_count"/>
+                        </button>
+                    </footer>
                  </form>
             </field>
         </record>

@@ -3,6 +3,25 @@ from datetime import timedelta
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
+class SessionWizard(models.TransientModel):
+
+    _name = 'openacademy.session.wizard'
+
+    session_ids = fields.Many2many('openacademy.session', string="Sessions", required=True)
+    attendee_ids = fields.Many2many('res.partner', string="Attendees")
+
+    @api.model
+    def default_get(self, fields):
+        default_values = super(SessionWizard, self).default_get(fields)
+        default_values.update({'attendee_ids': self.env.context.get('active_ids', [])})
+
+        #import pdb; pdb.set_trace()
+        return default_values
+
+    def register_attendees_sessions(self):
+        for session in self.session_ids:
+            session.attendee_ids |= self.attendee_ids
+
 
 class Course(models.Model):
     _name = 'openacademy.course'
@@ -14,6 +33,8 @@ class Course(models.Model):
     level = fields.Selection([(1, 'Easy'), (2, 'Medium'), (3, 'Hard')], string="Difficulty Level")
     session_count = fields.Integer("Session Count", compute="_compute_session_count")
 
+    attendee_count = fields.Integer("Attendee Count", compute="_compute_attendee_count")
+
     _sql_constraints = [
        ('name_description_check', 'CHECK(name != description)',
         "The title of the course should not be the description"),
@@ -21,6 +42,22 @@ class Course(models.Model):
        ('name_unique', 'UNIQUE(name)',
         "The course title must be unique"),
     ]
+
+    def _compute_attendee_count(self):
+        for course in self:
+            course.attendee_count = len(course.mapped('session_ids.attendee_ids'))
+
+    def action_show_attendees(self):
+        """Launch session wizard"""
+        attendee_ids = self.session_ids.mapped('attendee_ids') # Get attendees from all sessions
+        return {
+            'name': 'Attendees',
+            #'view_type': 'form',
+            'view_mode': 'tree,form',
+            'res_model': 'res.partner',
+            'domain': [('id', 'in', attendee_ids.ids)], # ids !! not id,
+            'type': 'ir.actions.act_window'
+        }
 
     @api.multi
     def copy(self, default=None):
