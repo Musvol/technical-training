@@ -23,6 +23,13 @@ class Course(models.Model):
         "The course title must be unique"),
     ]
 
+    def write(self, vals):
+        if vals.get('responsible_id') and not self.env.user.has_group('openacademy.group_openacademy_archmaester'): #only archmaesters can update the responsible
+            raise ValidationError('Only user with this access rights (%s) are allowed to change the responsible.' % base_group.name)
+
+        return super(Course, self).write(vals)
+
+
     @api.multi
     def copy(self, default=None):
         default = dict(default or {})
@@ -58,7 +65,7 @@ class Course(models.Model):
     @api.depends('session_ids.attendees_count')
     def _compute_attendee_count(self):
         for course in self:
-            course.attendee_count = len(course.mapped('session_ids.attendee_ids'))
+            course.attendee_count = len(course.sudo().mapped('session_ids.attendee_ids'))
 
 class Session(models.Model):
     _name = 'openacademy.session'
@@ -74,7 +81,7 @@ class Session(models.Model):
     seats = fields.Integer(string="Number of seats")
     instructor_id = fields.Many2one('res.partner', string="Instructor") #No ondelete = set null
     course_id = fields.Many2one('openacademy.course', ondelete='cascade', string="Course", required=True)
-    attendee_ids = fields.Many2many('res.partner', string="Attendees", domain=[('company_type', '=', 'person')])
+    attendee_ids = fields.Many2many('res.partner', string="Attendees", domain=[('company_type', '=', 'person')], groups='openacademy.group_openacademy_archmaester,openacademy.group_openacademy_maester')
     taken_seats = fields.Float(string="Taken seats", compute='_taken_seats')
     level = fields.Selection(related='course_id.level', readonly=True)
     responsible_id = fields.Many2one(related='course_id.responsible_id', readonly=True, store=True)
@@ -99,12 +106,12 @@ class Session(models.Model):
             if not session.seats:
                 session.taken_seats = 0.0
             else:
-                session.taken_seats = 100.0 * len(session.attendee_ids) / session.seats
+                session.taken_seats = 100.0 * len(session.sudo().attendee_ids) / session.seats
 
     @api.depends('attendee_ids')
     def _get_attendees_count(self):
         for session in self:
-            session.attendees_count = len(session.attendee_ids)
+            session.attendees_count = len(session.sudo().attendee_ids)
 
     @api.onchange('seats', 'attendee_ids')
     def _verify_valid_seats(self):
@@ -165,6 +172,8 @@ class Session(models.Model):
 
     @api.multi
     def write(self, vals):
+
+        
         res = super(Session, self).write(vals)
         for rec in self:
             rec._auto_transition()
@@ -194,13 +203,6 @@ class Wizard(models.TransientModel):
 
     session_ids = fields.Many2many('openacademy.session', string="Sessions", required=True)
     attendee_ids = fields.Many2many('res.partner', string="Attendees", )
-
-    @api.model
-    def create(self, vals):
-        import ipdb; ipdb.set_trace()
-        print self,  vals
-        res = super(Wizard, self).create(vals)
-        return res
 
     @api.multi
     def subscribe(self):

@@ -45,7 +45,7 @@
                         </div>
                         <group>
                             <group>
-                                <field name="course_id" />
+                                <field name="course_id" domain="[('responsible_id', '=', uid)]" />
                                 <field name="responsible_id" />
                                 <field name="level" />
                                 <field name="instructor_id" domain="['&amp;', ('instructor', '=', True), ('level', '&gt;=', level)]" />
