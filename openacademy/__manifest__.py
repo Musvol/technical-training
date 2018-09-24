@@ -33,6 +33,8 @@
         'views/courses_kanban.xml',
         'wizard/add_attendee_view.xml',
         'report/board.xml',
+        'report/session_report.xml',
+        'report/session_template.xml',
         'data/partner.xml',
     ],
     # only loaded in demonstration mode
