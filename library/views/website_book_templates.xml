@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="rent_book_template">
+        <t t-call="website.layout">
+            <div class="container">
+                <div>
+                    <t t-foreach="books" t-as="book">
+                        <a class="btn btn-primary" t-attf-href="/register_rental/{{book.id}}"><t t-esc="book.name"/></a>
+                    </t>
+                </div>
+            </div>
+        </t>
+        
+    </template>
+</odoo>

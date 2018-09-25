@@ -19,7 +19,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'product'],
+    'depends': ['base', 'product', 'website'],
 
     # always loaded
     'data': [
@@ -29,6 +29,7 @@
         "views/book.xml",
         "views/author.xml",
         "views/rental.xml",
+        "views/website_book_templates.xml"
     ],
     # only loaded in demonstration mode
     'demo': [],

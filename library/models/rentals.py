@@ -19,4 +19,4 @@ class Rentals(models.Model):
         required=True,
     )
     rental_date =  fields.Date(string='Rental date', required=True, default=lambda self: fields.Date.today())
-    return_date =  fields.Date(string='Return date', required=True)
+    return_date =  fields.Date(string='Return date', required=False)
