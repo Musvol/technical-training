@@ -3,6 +3,7 @@
    <template id="assets_backend" name="library assets backend" inherit_id="web.assets_backend">
         <xpath expr="." position="inside">
             <script type="text/javascript" src="/library/static/src/js/chart_widget.js"></script>
+            <script type="text/javascript" src="/library/static/src/js/year_widget.js"></script>
             <script type="text/javascript" src="/library/static/src/js/client_action.js"></script>
         </xpath>
 
