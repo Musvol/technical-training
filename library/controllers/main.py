@@ -21,7 +21,6 @@ class LibraryController(http.Controller):
         book_month_domain = [('date', '>=', first_day), ('date', '<=', last_day)]
         lost_books = Rental.search([('state', '=', 'lost')] + rental_month_domain)
         nb_rentals = Rental.search_count(rental_month_domain)
-
         return {
             'money_in': sum(Payment.search(book_month_domain).mapped('amount')),
             'nb_rentals': nb_rentals,

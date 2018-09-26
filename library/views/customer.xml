@@ -64,7 +64,7 @@
             <field name="name">customer.tree.view</field>
             <field name="model">res.partner</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree default_order='name,amount_owed'>
                     <field name="name"/>
                     <field name="email"/>
                     <field name="amount_owed"/>

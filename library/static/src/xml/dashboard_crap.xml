@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+
+    <div t-name="MyDashboard" class="o_library">
+    	<h1>My library dashboard</h1>
+    	<div>
+    		<div>Money in this month: <t t-esc="widget.stats.money_in"/> €</div>
+    		<div>Nb rentals: <t t-esc="widget.stats.nb_rentals"/></div>
+    		<div>Nb lost books: <t t-esc="widget.stats.nb_lost_books"/></div>
+    		<div>Money lost: <t t-esc="widget.stats.money_lost"/></div>
+    		<div>Available books: <t t-esc="widget.stats.nb_available_books"/></div>
+    		<div>Rented books: <t t-esc="widget.stats.nb_rented_books"/></div>
+    		<div>Lost books total: <t t-esc="widget.stats.nb_lost_books_total"/></div>
+    	</div>
+    	<div class="chart"/>
+
+    </div>
+
+    <div t-name="LibraryDashboard.Buttons">
+	    <button 
+	    	type="button" 
+	    	class="btn btn-primary o_lost_books">
+	    	Lost Books
+	    </button>
+	    <button 
+	    	type="button" 
+	    	class="btn btn-primary o_bad_customers">
+	    	Bad Customers
+	    </button>
+	</div>
+</templates>
