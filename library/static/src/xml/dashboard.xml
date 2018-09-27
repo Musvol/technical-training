@@ -16,4 +16,23 @@
     <button type="button" class="btn btn-primary o_bad_customers">Bad Customers</button>
 </div>
 
+<t t-name="LibraryWarning">
+    <div t-attf-class="alert alert-{{type}}" role="alert">
+	  This customer owes <t t-esc="amount" /> €
+	</div>
+</t>
+
+<t t-name="LibraryCustomer.Buttons">
+    <button type="button" class="btn btn-default o_geolocalize">Geolocalize</button>
+    <button type="button" class="btn btn-default o_pay_amount_owed">Pay Amount Owed</button>
+</t>
+
+<li t-name="Scan" class="o_debug_manager" style="color: black;">
+    <input type="input" placeholder="scan" class=".o_scan_input" />
+</li>
+
+<div t-name="AppSwitcherPromo" class="alert alert-primary" role="alert">
+  Don't forget the Monday Promos !
+</div>
+
 </templates>

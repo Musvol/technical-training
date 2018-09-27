@@ -6,7 +6,7 @@
             <field name="name">customer.form.view</field>
             <field name="model">res.partner</field>
             <field name="arch" type="xml">
-                <form>
+                <form js_class="library_customer">
                   <sheet>
                       <div class="oe_title oe_left">
                           <h1>
@@ -14,7 +14,7 @@
                           </h1>
                       </div>
                       <group>
-                          <field name="amount_owed"/>
+                          <field name="amount_owed" widget="library-warning"/>
                           <field name="email"/>
                           <label for="street" string="Address"/>
                           <div class="o_address_format">
@@ -104,6 +104,36 @@
                     'view_mode': 'tree',
                     'view_id': ref('library.customer_view_tree_id'),
                     }),
+                (0, 0, {
+                    'view_mode': 'form',
+                    'view_id': ref('library.customer_view_form_id'),
+                    }),
+                ]"/>
+        </record>
+
+        <!-- <record model="ir.actions.act_window" id="action_customer_form">
+            <field name="name">Customers</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">form</field>
+            <field name="view_ids" eval="[
+                (5, 0, 0),
+                (0, 0, {
+                    'view_mode': 'tree',
+                    'view_id': ref('library.customer_view_tree_id'),
+                    }),
+                (0, 0, {
+                    'view_mode': 'form',
+                    'view_id': ref('library.customer_view_form_id'),
+                    }),
+                ]"/>
+        </record> -->
+
+        <record model="ir.actions.act_window" id="action_customer_form">
+            <field name="name">Customers</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">form</field>
+            <field name="view_ids" eval="[
+                (5, 0, 0),
                 (0, 0, {
                     'view_mode': 'form',
                     'view_id': ref('library.customer_view_form_id'),

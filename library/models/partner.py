@@ -46,3 +46,11 @@ class Partner(models.Model):
     def _amount_owed(self):
         for rec in self:
             rec.amount_owed = - sum(rec.payment_ids.mapped('amount'))
+
+    def pay_amount_owed(self):
+        for partner in self:
+            partner.env['library.payment'].create({
+                'customer_id': partner.id,
+                'amount': partner.amount_owed,
+                })
+        return True

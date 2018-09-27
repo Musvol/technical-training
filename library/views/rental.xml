@@ -19,6 +19,8 @@
                             <field name="book_id" context="{'default_book': True}"/>
                             <field name="rental_date"/>
                             <field name="return_date"/>
+                            <field name="amount_owed" widget="library-warning"/>
+                            <field name="is_late" widget="boolean_status"/>
                         </group>
                     </sheet>
                 </form>
@@ -35,6 +37,7 @@
                     <field name="rental_date"/>
                     <field name="return_date"/>
                     <field name="state"/>
+                    <field name="is_late" widget="boolean_status" options="{'true_color': 'orange', 'false_color': 'gray'}"/>
                  </tree>
             </field>
         </record>
@@ -51,7 +54,10 @@
                     <t t-name="kanban-box">
                       <div class="oe_module_vignette oe_kanban_global_click">
                         <div><field name="customer_id"/></div>
-                        <div><field name="book_id"/></div>
+                        <div>
+                            <field name="book_id"/>
+                            <field name="is_late" widget="boolean_status"/>
+                        </div>
                       </div>
                     </t>
                   </templates>
