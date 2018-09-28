@@ -10,6 +10,7 @@
     'version': '0.1',
     'depends': ['base_geolocalize'],
     'data': [
+        "assets.xml",
         "views/res_partner.xml",
     ],
     'qweb': [],
