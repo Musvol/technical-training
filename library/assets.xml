@@ -10,6 +10,7 @@
             <script type="text/javascript" src="/library/static/src/js/form_views.js"></script>
             <script type="text/javascript" src="/library/static/src/js/scan_input_widget.js"></script>
             <script type="text/javascript" src="/library/static/src/js/appswitcher.js"></script>
+            <script type="text/javascript" src="/library/static/src/js/rental_kanban_view.js"></script>
         </xpath>
 
         <xpath expr="//link[last()]" position="after">

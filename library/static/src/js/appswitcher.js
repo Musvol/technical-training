@@ -11,7 +11,6 @@ var QWeb = core.qweb;
 AppSwitcher.include({
     render: function () {
         this._super.apply(this, arguments);
-
         if (moment().isoWeekday() === 4 && !$('.alert').length) {
             // only display on Mondays
             // should check if message not already exists
@@ -20,16 +19,16 @@ AppSwitcher.include({
     },
 });
 
-AppSwitcher.include({
-    render: function () {
-        this._super.apply(this, arguments);
+// AppSwitcher.include({
+//     render: function () {
+//         this._super.apply(this, arguments);
 
-        if (moment().isoWeekday() === 4 && !$('.alert').length) {
-            // only display on Mondays
-            // should check if message not already exists
-            this.$el.append("QWeb.render('AppSwitcherPromo')");
-        }
-    },
-});
+//         if (moment().isoWeekday() === 4 && !$('.alert').length) {
+//             // only display on Mondays
+//             // should check if message not already exists
+//             this.$el.append("QWeb.render('AppSwitcherPromo')");
+//         }
+//     },
+// });
 
 });

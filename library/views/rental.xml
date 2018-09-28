@@ -46,7 +46,7 @@
             <field name="name">rental.kanban.view</field>
             <field name="model">library.rental</field>
             <field name="arch" type="xml">
-                <kanban create="false" default_group_by="state">
+                <kanban create="false" default_group_by="state" js_class="library_kanban">
                   <field name="customer_id"/>
                   <field name="book_id"/>
                   <field name="state"/>

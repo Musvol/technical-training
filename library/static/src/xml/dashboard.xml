@@ -35,4 +35,20 @@
   Don't forget the Monday Promos !
 </div>
 
+<div t-name="CustomerList" class="o_kanban_group">
+    <div class="o_kanban_header">
+        <div class="o_kanban_header_title">
+            <span class="o_column_header">Customers</span>
+        </div>
+    </div>
+    <table class="o_list_view table table-condensed table-striped o_list_view_ungrouped"> 
+        <t t-foreach="customers" t-as="customer">
+            <tr t-attf-class="o_data_row o_customer #{selected === customer.id ? 'o_active_customer': ''}" >
+                <td class="o_data_cell" t-att-id='customer.id'> <t t-esc="customer.display_name"/> <t t-if="selected === customer.id">&lt;</t></td>
+            </tr>
+        </t>
+        
+    </table>
+</div>
+
 </templates>
