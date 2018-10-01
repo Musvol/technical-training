@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="view_sale_order_double_confirm_form" model="ir.ui.view">
+		<field name="model">sale.order</field>
+		<field name="inherit_id" ref="sale.view_order_form" />
+		<field name="arch" type="xml">
+			<xpath expr="./header/button[@name='print_quotation']" position="after">
+				<button name="action_submit_to_manager" states="draft" string="Submit to manager" type="object" class="o_sale_confirm"/>
+				<button name="action_submit_to_manager" states="sent" string="Submit to manager" type="object" class="btn-primary o_sale_confirm"/>
+			</xpath>
+			<!-- <xpath expr="header/button[@name='action_confirm']" position="replace">
+				<button name="action_confirm" states="submitted" string="Confirm Sale" class="btn-primary o_sale_confirm" type="object" />
+			</xpath> -->
+
+			<xpath expr="./header//button[@name='action_confirm'][1]" position="replace">
+				<button name="action_confirm" states="submitted" string="Confirm Sale" class="btn-primary o_sale_confirm" type="object" />
+			</xpath>
+			<xpath expr="./header//button[@name='action_confirm'][2]" position="replace">
+				
+			</xpath>
+
+			<!-- Status bar -->
+			<xpath expr="./header/field[@widget='statusbar']" position="attributes">
+				<attribute name="statusbar_visible">draft,sent,submitted,sale</attribute>
+			</xpath>
+		</field>
+
+	</record>
+</odoo>
+<!--  		<field name="state" widget="statusbar" statusbar_visible="draft,sent,submitted,sale" on_change="1" modifiers="{'readonly':true}"/>
+
+			<button name="action_confirm" states="sent" string="Confirm Sale" class="btn-primary o_sale_confirm" type="object" />
+            <button name="action_confirm" states="draft" string="Confirm Sale" class="o_sale_confirm" type="object" />
+
+     BEFORE THIS BUTTON         <button name="action_confirm" states="sent" string="Confirm Sale" class="btn-primary o_sale_confirm" type="object" />
+ -->
