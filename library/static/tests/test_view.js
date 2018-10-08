@@ -4,7 +4,7 @@ odoo.define('library.tests', function (require) {
 	var test_utils = require('web.test_utils')
 	var createView = test_utils.createView;
 
-	// var BooleanStatusWidget = require('BooleanStatusWidget')
+	//var BooleanStatusWidget = require('BooleanStatusWidget')
 
 	QUnit.module('Library', {
 		beforeEach: function () {
