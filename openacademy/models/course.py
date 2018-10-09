@@ -6,6 +6,8 @@ from odoo.exceptions import UserError
 class Course(models.Model):
     _name = 'openacademy.course'
 
+    _inherit = ['mail.thread']
+
     name = fields.Char()
     description = fields.Text()
     responsible_id = fields.Many2one('res.users', ondelete='set null', string="Responsible", index=True)
@@ -41,10 +43,47 @@ class Course(models.Model):
     def _compute_session_count(self):
         self.session_count = len(self.session_ids)
 
+    def write(self, vals) :
+
+        for course in self:
+            if vals.get('responsible_id') :
+                responsible = self.env['res.users'].browse(vals.get('responsible_id'))
+                course.message_subscribe_users([responsible.id])
+        return super(Course, self).write(vals)
+
+    @api.multi
+    def message_get_suggested_recipients(self):
+        """ Returns suggested recipients for ids. Those are a list of
+        tuple (partner_id, partner_name, reason), to be managed by Chatter. """
+        suggestions = super(Course, self).message_get_suggested_recipients()
+
+        for session in self.session_ids:
+            suggestions.get(self.id, []).append((session.instructor_id.id, session.instructor_id.name, "You are the session's instructor"))
+
+        return suggestions
+
 class Session(models.Model):
     _name = 'openacademy.session'
 
     _order = 'name'
+
+    _inherit = ['mail.thread', 'mail.alias.mixin']
+
+    def get_alias_model_name(self, vals):
+        """ Specify the model that will get created when the alias receives a message """
+        return 'openacademy.attendee'
+
+    def get_alias_values(self):
+        values =  super(Session, self).get_alias_values()
+
+        # Fields from Attendee
+    #       partner_id = fields.Many2one('res.partner', 'Attendee Name', domain=[('is_company', '=', False)])
+    #       session_id = fields.Many2one('openacademy.session', 'Session')
+    #       course_id = fields.Many2one('openacademy.course', string="Course")
+        values['alias_defaults'] = {'course_id': self.course_id.id,
+                                    'session_id': self.id}
+        return values
+
 
     name = fields.Char(required=True)
     start_date = fields.Date(default=lambda self : fields.Date.today())
@@ -70,6 +109,10 @@ class Session(models.Model):
                     ('done', "Done"),
                     ], default='draft')
 
+    alias_id = fields.Many2one('mail.alias', string='Alias', ondelete="restrict", required=True,
+        help="Internal email associated with this project. Incoming emails are automatically synchronized "
+             "with Tasks (or optionally Issues if the Issue Tracker module is installed).")
+    
     def _warning(self, title, message):
             return {
               'warning': {
@@ -140,6 +183,7 @@ class Session(models.Model):
 
 class Attendee(models.Model):
     _name = 'openacademy.attendee'
+    _inherit = ['mail.thread']
 
     _rec_name = 'partner_id'
 
@@ -152,12 +196,38 @@ class Attendee(models.Model):
                     ('confirmed', "Confirmed"),
                     ('done', "Attended"),
                     ('cancel', "Not Attended"),
-                    ], default='draft')
+                    ], default='draft',
+                    track_visibility='onchange')
 
     _sql_constraints = [
        ('subscribe_once_per_session', 'UNIQUE(partner_id, session_id)',
         _("You can only subscribe a partner once to the same session.")),
     ]
+
+    def write(self, vals):
+        res = super(Attendee, self).write(vals)
+
+        for record in self:
+            if vals.get('state'):
+                template = self.env.ref('openacademy.email_template_state')
+                self.message_post_with_template(template.id)
+        return res
+
+    @api.model
+    def message_new(self, msg, custom_values=None):
+        """ Override to updates the document according to the email. """
+        import pdb; pdb.set_trace()
+        custom_values = dict(custom_values) or {}
+        custom_values['partner_id'] = msg.get('author_id')
+        if 'session_id' not in custom_values and custom_values.get('course_id'):
+            session_ids = self.env['openacademy.session'].search([('state', '=', 'confirmed'), 
+                                                                  ('start_date', '>', fields.Date.today()),
+                                                                  ('remaining_seat', '>', 0)], order="start_date asc")
+            if session_ids:
+                custom_values['session_id'] = session_ids[0].id
+        return super(Attendee, self).message_new(msg, custom_values=custom_values)
+
+
 
     @api.one
     def action_draft(self):

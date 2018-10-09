@@ -18,7 +18,7 @@
     'category': 'Academy',
     'version': '0.1',
 
-    'depends': ['base'],
+    'depends': ['base', 'mail'],
 
     # always loaded
     'data': [
@@ -32,6 +32,7 @@
         'views/attendee.xml',
         'wizard/add_attendee_view.xml',
         'data/partner.xml',
+        'data/attendee_mail_template.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
